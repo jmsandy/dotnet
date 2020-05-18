@@ -9,10 +9,10 @@
     <Copyright>Copyright (c) Polimorfismo - José Mauro da Silva Sandy</Copyright>
     <RepositoryUrl>https://github.com/jmsandy/dotnet/FluentValidation</RepositoryUrl>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageReleaseNotes>0.0.1 - Version with validations rules ​​for CPF and CNPJ.</PackageReleaseNotes>
-    <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <PackageReleaseNotes>0.1.0 - Version with validations rules ​​for CPF and CNPJ.</PackageReleaseNotes>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <FileVersion>0.0.1.0</FileVersion>
-    <Version>0.0.1</Version>
+    <Version>0.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
