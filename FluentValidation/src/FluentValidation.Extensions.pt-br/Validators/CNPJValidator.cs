@@ -37,7 +37,7 @@ namespace FluentValidation.Validators
         /// <summary>
         /// CNPJ validator.
         /// </summary>
-        /// <param name="message">erro message.</param>
+        /// <param name="message">error message.</param>
         public CNPJValidator(string message)
             : base(@"[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2}",
                   14,

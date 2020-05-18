@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>FluentValidation.Tests</RootNamespace>
 
     <IsPackable>false</IsPackable>
 
-    <RepositoryUrl>https://github.com/jmsandy/dotnet/FluentValidation</RepositoryUrl>
+    <RepositoryUrl>https://github.com/jmsandy/dotnet</RepositoryUrl>
 
     <Copyright>Copyright (c) Polimorfismo - José Mauro da Silva Sandy</Copyright>
 
@@ -19,6 +19,14 @@
     <Description>(Tests) FluentValidation extension to validate rules applied exclusively in Brazilian scenarios.</Description>
 
     <NeutralLanguage>en</NeutralLanguage>
+
+    <PackageId>Polimorfismo.FluentValidation.Extensions.pt-br.Tests</PackageId>
+
+    <Product>Polimorfismo.FluentValidation.Extensions.pt-br.Tests</Product>
+
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+
+    <AssemblyName>Polimorfismo.FluentValidation.Extensions.pt-br.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +39,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\FluentValidation.Extensions.pt-br\FluentValidation.Extensions.pt-br.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

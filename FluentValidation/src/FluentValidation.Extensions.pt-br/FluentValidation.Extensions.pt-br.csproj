@@ -1,22 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>FluentValidation</RootNamespace>
     <Authors>José Mauro da Silva Sandy</Authors>
     <Company>Polimorfismo</Company>
     <Description>FluentValidation extension to validate rules applied exclusively in Brazilian scenarios.</Description>
     <Copyright>Copyright (c) Polimorfismo - José Mauro da Silva Sandy</Copyright>
-    <RepositoryUrl>https://github.com/jmsandy/dotnet/FluentValidation</RepositoryUrl>
+    <RepositoryUrl>https://github.com/jmsandy/dotnet</RepositoryUrl>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageReleaseNotes>0.1.0 - Version with validations rules ​​for CPF and CNPJ.</PackageReleaseNotes>
-    <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <FileVersion>0.0.1.0</FileVersion>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
     <Version>0.1.0</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageId>Polimorfismo.FluentValidation.Extensions.pt-br</PackageId>
+    <Product>Polimorfismo.FluentValidation.Extensions.pt-br</Product>
+    <AssemblyName>Polimorfismo.FluentValidation.Extensions.pt-br</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="8.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
