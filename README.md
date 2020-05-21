@@ -38,7 +38,7 @@ public class PersonValidator : AbstractValidator<Person>
 }
 
 var validator = new PersonValidator();
-var results = validator.Validate(new Person("123.123.123-87"))
+var results = validator.Validate(new Person("123.123.123-87"));
 
 var success = results.IsValid;
 var failures = results.Errors;
