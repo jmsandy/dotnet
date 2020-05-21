@@ -14,11 +14,16 @@ dotnet add package Polimorfismo.FluentValidation.Extensions.pt-br
 ---
 [![Build Status](https://dev.azure.com/jmsandy/FluentValidation.Extensions.pt-br/_apis/build/status/jmsandy.dotnet?branchName=master)](https://dev.azure.com/jmsandy/FluentValidation.Extensions.pt-br/_build/latest?definitionId=1&branchName=master)
 
+|         |       |       |
+| ------- | ----- | ----- |
+| `FluentValidation.Extensions.pt-br` | [![NuGet](https://img.shields.io/nuget/v/Polimorfismo.FluentValidation.Extensions.pt-br.svg)](https://www.nuget.org/packages/Polimorfismo.FluentValidation.Extensions.pt-br) | [![Nuget](https://img.shields.io/nuget/dt/Polimorfismo.FluentValidation.Extensions.pt-br.svg)](https://nuget.org/packages/Polimorfismo.FluentValidation.Extensions.pt-br) 
+
 ### Example
 ```csharp
 using FluentValidation;
 
-public class PersonValidator : AbstractValidator<Person> {
+public class PersonValidator : AbstractValidator<Person> 
+{
     public PersonValidator()
     {
         RuleFor(p => p.CPF).IsValidCPF();
