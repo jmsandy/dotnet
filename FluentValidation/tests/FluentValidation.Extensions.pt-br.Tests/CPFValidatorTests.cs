@@ -13,123 +13,227 @@
 // limitations under the License.
 
 using Xunit;
-using System;
+using System.Linq;
+using FluentAssertions;
 using System.Threading.Tasks;
 
 namespace FluentValidation.Tests
 {
+    [Collection(nameof(DocumentsCollection))]
     public class CPFValidatorTests
     {
-        [Fact]
-        public void Validation_cpf_should_fail_when_all_digits_equals()
+        private readonly DocumentsFixture _documentsFixture;
+
+        public CPFValidatorTests(DocumentsFixture documentsFixture)
         {
-            var validator = new PersonValidator();
-            Parallel.For(0, 10, (i) =>
-            {
-                validator.Validate(new Person("".PadRight(11, Convert.ToChar(i)))).IsValid.ShouldBeFalse();
-            });
+            _documentsFixture = documentsFixture;
         }
 
-        [Fact]
-        public void Validation_cpf_should_fail_when_async_all_digits_equals()
+        [Fact(DisplayName = "Should Fail When All Digits Are Equals")]
+        [Trait("Validator", "CPF Validator")]
+        public void CPFValidator_Validate_ShouldFailWhenAllDigitsEquals()
         {
+            // Arrange
             var validator = new PersonValidator();
-            Parallel.For(0, 10, async (i) =>
-            {
-                var result = await validator.ValidateAsync(new Person("".PadRight(11, Convert.ToChar(i))));
-                result.IsValid.ShouldBeFalse();
-            });
+
+            // Act 
+            var cpfList = _documentsFixture.GetCPFDigitsEquals();
+
+            // Assert
+            cpfList.ToList().ForEach(cpf => validator.Validate(new Person(cpf)).IsValid.Should().BeFalse());
         }
 
-        [Fact]
-        public void Validation_cpf_should_fail_when_is_null_or_empty()
+        [Fact(DisplayName = "Should Fail When All Digits Are Equals (Async)")]
+        [Trait("Validator", "CPF Validator")]
+        public void CPFValidator_Validate_ShouldFailWhenAllDigitsEqualsAsync()
         {
+            // Arrange
             var validator = new PersonValidator();
-            validator.Validate(new Person("")).IsValid.ShouldBeFalse();
-            validator.Validate(new Person(null)).IsValid.ShouldBeFalse();
+
+            // Act 
+            var cpfList = _documentsFixture.GetCPFDigitsEquals();
+
+            // Assert
+            cpfList.ToList().ForEach(async cpf => (await validator.ValidateAsync(new Person(cpf))).IsValid.Should().BeFalse());
         }
 
-        [Fact]
-        public async Task Validation_cpf_should_fail_when_async_is_null_or_empty()
+        [Fact(DisplayName = "Should Fail When Is Null Or Empty")]
+        [Trait("Validator", "CPF Validator")]
+        public void CPFValidator_Validate_ShouldFailWhenIsNullOrEmpty()
         {
+            // Arrange
             var validator = new PersonValidator();
-            var result = await validator.ValidateAsync(new Person(""));
-            result.IsValid.ShouldBeFalse();
+            var personCpfEmpty = new Person("");
+            var personCpfNull = new Person(null);
 
-            result = await validator.ValidateAsync(new Person(null));
-            result.IsValid.ShouldBeFalse();
+            // Act & Assert
+            validator.Validate(personCpfEmpty).IsValid.Should().BeFalse();
+            validator.Validate(personCpfNull).IsValid.Should().BeFalse();
         }
 
-        [Fact]
-        public void Validation_cpf_should_fail_when_invalid_length()
+        [Fact(DisplayName = "Should Fail When Is Null Or Empty (Async)")]
+        [Trait("Validator", "CPF Validator")]
+        public async Task CPFValidator_Validate_ShouldFailWhenIsNullOrEmptyAsync()
         {
+            // Arrange
             var validator = new PersonValidator();
-            validator.Validate(new Person("123123")).IsValid.ShouldBeFalse();
-            validator.Validate(new Person("123123123871")).IsValid.ShouldBeFalse();
+            var personCpfEmpty = new Person("");
+            var personCpfNull = new Person(null);
+
+            // Act
+            var resultIsEmpty = await validator.ValidateAsync(personCpfEmpty);
+            var resultIsNull = await validator.ValidateAsync(personCpfNull);
+
+            // Assert
+            resultIsEmpty.IsValid.Should().BeFalse();
+            resultIsNull.IsValid.Should().BeFalse();
         }
 
-        [Fact]
-        public async Task Validation_cpf_should_fail_when_async_invalid_length()
+        [Theory(DisplayName = "Should Fail When Invalid Length")]
+        [Trait("Validator", "CPF Validator")]
+        [InlineData("1")]
+        [InlineData("12")]
+        [InlineData("123")]
+        [InlineData("1234")]
+        [InlineData("12345")]
+        [InlineData("123456")]
+        [InlineData("1234567")]
+        [InlineData("12345678")]
+        [InlineData("123456789")]
+        [InlineData("1234567890")]
+        [InlineData("123456789011")]
+        public void CPFValidator_Validate_ShouldFailWhenInvalidLength(string cpf)
         {
+            // Arrange
             var validator = new PersonValidator();
-            var result = await validator.ValidateAsync(new Person("123123"));
-            result.IsValid.ShouldBeFalse();
+            var person = new Person(cpf);
 
-            result = await validator.ValidateAsync(new Person("123123123871"));
-            result.IsValid.ShouldBeFalse();
+            // Act & Asset
+            validator.Validate(person).IsValid.Should().BeFalse();
         }
 
-        [Fact]
-        public void Validation_cpf_should_fail_when_invalid_value()
+        [Theory(DisplayName = "Should Fail When Invalid Length (Async)")]
+        [Trait("Validator", "CPF Validator")]
+        [InlineData("1")]
+        [InlineData("12")]
+        [InlineData("123")]
+        [InlineData("1234")]
+        [InlineData("12345")]
+        [InlineData("123456")]
+        [InlineData("1234567")]
+        [InlineData("12345678")]
+        [InlineData("123456789")]
+        [InlineData("1234567890")]
+        [InlineData("123456789011")]
+        public async Task CPFValidator_Validate_ShouldFailWhenInvalidLengthAsync(string cpf)
         {
+            // Arrange
             var validator = new PersonValidator();
-            validator.Validate(new Person("12312312E87")).IsValid.ShouldBeFalse();
-            validator.Validate(new Person("123123123B7")).IsValid.ShouldBeFalse();
+            var person = new Person(cpf);
+
+            // Act
+            var result = await validator.ValidateAsync(person);
+            
+            // Assert
+            result.IsValid.Should().BeFalse();
         }
 
-        [Fact]
-        public async Task Validation_cpf_should_fail_when_async_invalid_value()
+        [Theory(DisplayName = "Should Fail When Invalid Value")]
+        [Trait("Validator", "CPF Validator")]
+        [InlineData("12312312E87")]
+        [InlineData("123123123B7")]
+        [InlineData("123.123.123..87")]
+        [InlineData("72186126500")]
+        public void CPFValidator_Validate_ShouldFailWhenInvalidValue(string cpf)
         {
+            // Arrange
             var validator = new PersonValidator();
-            var result = await validator.ValidateAsync(new Person("123.123.123..87"));
-            result.IsValid.ShouldBeFalse();
+            var person = new Person(cpf);
 
-            result = await validator.ValidateAsync(new Person("123123123B7"));
-            result.IsValid.ShouldBeFalse();
+            // Act & Asset
+            validator.Validate(person).IsValid.Should().BeFalse();
         }
 
-        [Fact]
-        public void Validation_cpf_should_succeed()
+        [Theory(DisplayName = "Should Fail When Invalid Value (Async)")]
+        [Trait("Validator", "CPF Validator")]
+        [InlineData("12312312E87")]
+        [InlineData("123123123B7")]
+        [InlineData("123.123.123..87")]
+        [InlineData("72186126500")]
+        public async Task CPFValidator_Validate_ShouldFailWhenInvalidValueAsync(string cpf)
         {
+            // Arrange
             var validator = new PersonValidator();
-            validator.Validate(new Person("123.123.123-87")).IsValid.ShouldBeTrue();
-            validator.Validate(new Person("66087661069")).IsValid.ShouldBeTrue();
+            var person = new Person(cpf);
+
+            // Act
+            var result = await validator.ValidateAsync(person);
+
+            // Assert
+            result.IsValid.Should().BeFalse();
         }
 
-        [Fact]
-        public async Task Validation_cpf_should_succeed_async()
+        [Fact(DisplayName = "CPF Is Valid")]
+        [Trait("Validator", "CPF Validator")]
+        public void CPFValidator_Validate_CPFIsValid()
         {
+            // Arrange
             var validator = new PersonValidator();
-            var result = await validator.ValidateAsync(new Person("12312312387"));
-            result.IsValid.ShouldBeTrue();
 
-            result = await validator.ValidateAsync(new Person("660.876.610-69"));
-            result.IsValid.ShouldBeTrue();
+            // Act
+            var cpfList = _documentsFixture.GetValidCPF(10, true);
+            cpfList.AddRange(_documentsFixture.GetValidCPF(10, false));
+
+            // Assert
+            cpfList.ToList().ForEach(cpf => validator.Validate(new Person(cpf)).IsValid.Should().BeTrue());
         }
 
-        [Fact]
-        public void Validation_cpf_should_fail_when_custom_message()
+        [Fact(DisplayName = "CPF Is Valid (Async)")]
+        [Trait("Validator", "CPF Validator")]
+        public void CPFValidator_Validate_CPFIsValidAsync()
         {
+            // Arrange
+            var validator = new PersonValidator();
+
+            // Act
+            var cpfList = _documentsFixture.GetValidCPF(10, true);
+            cpfList.AddRange(_documentsFixture.GetValidCPF(10, false));
+
+            // Assert
+            cpfList.ToList().ForEach(async cpf => (await validator.ValidateAsync(new Person(cpf))).IsValid.Should().BeTrue());
+        }
+
+        [Fact(DisplayName = "Should Fail With Custom Message")]
+        [Trait("Validator", "CPF Validator")]
+        public void CPFValidator_Validate_ShouldFailWhenCustomMessage()
+        {
+            // Arrange
             var validator = new PersonValidator("{PropertyName} invalid!", "{PropertyName} invalid!");
-            validator.Validate(new Person("1231231C387")).Errors[0].ErrorMessage.ShouldEqual("CPF invalid!");
+            var person = new Person("1231231C387");
+
+            // Act 
+            var result = validator.Validate(person);
+
+            // Assert
+            // Assert
+            result.IsValid.Should().BeFalse();
+            result.Errors[0].ErrorMessage.Should().Equals("CPF invalid!");
         }
 
-        [Fact]
-        public async Task Validation_cpf_should_fail_when_async_custom_message()
+        [Fact(DisplayName = "Should Fail With Custom Message (Async)")]
+        [Trait("Validator", "CPF Validator")]
+        public async Task CPFValidator_Validate_ShouldFailWhenCustomMessageAsync()
         {
+            // Arrange
             var validator = new PersonValidator("{PropertyName} invalid!", "{PropertyName} invalid!");
-            var result = await validator.ValidateAsync(new Person("1231231C387"));
-            result.Errors[0].ErrorMessage.ShouldEqual("CPF invalid!");
+            var person = new Person("1231231C387");
+
+            // Act
+            var result = await validator.ValidateAsync(person);
+
+            // Assert
+            result.IsValid.Should().BeFalse();
+            result.Errors[0].ErrorMessage.Should().Equals("CPF invalid!");
         }
     }
 }

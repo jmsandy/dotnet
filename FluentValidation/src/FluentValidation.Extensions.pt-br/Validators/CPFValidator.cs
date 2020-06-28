@@ -30,18 +30,9 @@ namespace FluentValidation.Validators
         /// CPF validator.
         /// </summary>
         public CPFValidator()
-            : this(DefaultMessage)
-        {
-        }
-
-        /// <summary>
-        /// CPF validator.
-        /// </summary>
-        /// <param name="message">error message.</param>
-        public CPFValidator(string message)
             : base(@"[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}",
                   11,
-                  message ?? DefaultMessage,
+                  DefaultMessage,
                   new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 },
                   new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 })
         {

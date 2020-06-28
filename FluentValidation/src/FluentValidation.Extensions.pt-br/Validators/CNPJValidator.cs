@@ -30,18 +30,9 @@ namespace FluentValidation.Validators
         /// CNPJ validator.
         /// </summary>
         public CNPJValidator()
-            : this(DefaultMessage)
-        {
-        }
-
-        /// <summary>
-        /// CNPJ validator.
-        /// </summary>
-        /// <param name="message">error message.</param>
-        public CNPJValidator(string message)
             : base(@"[\d]{2}\.[\d]{3}\.[\d]{3}\/[\d]{4}-[\d]{2}",
                   14,
-                  message ?? DefaultMessage,
+                  DefaultMessage,
                   new int[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 },
                   new int[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 })
         {
